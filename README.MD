@@ -61,6 +61,14 @@ O O B-time_from I-time_from I-time_from O
 2. Одновременная классификация и поиск слотов в рамках одной модели (BERT с двумя головами);
 3. Для задачи классификации теги подаются как дополнительные признаки (газетиры), а для задачи поиска слотов обучается своя модель на каждый интент (в случае нескольких интентов можно использовать голосование).
 
+---
+
+Газетиры (gazetteers) - это фактически добавление каких-то дополнительных признаков к токенам или их эмбедингам. Существует несколько вариантов такого добавления, классические описаны в [2].
+
+Ясно, что при использовании BERT модификация эмбедингов сломает претрейн модели, поэтому в нашем случае стоит добавлять признаки уже к выходным эмбедингам берта (подробнее об этом можно почитать в [3]).
+
+---
+
 Для всех трёх вариантов планируется замерить качество в задачах тегирования и классификации и сравнить их, качество будет замеряться на 10 фолдах, как было предложено авторами набора данных [здесь](https://github.com/PolyAI-LDN/task-specific-datasets/tree/master/nlupp).
 
 На данный момент я успел только реализовать класс по выгрузке и предобработке набора данных в правильном формате, а также выполнить первый пункт предложенного плана с помощью Hugging Face. В файле `data_loader.py` реализована вся логика по сбору и подготовке данных, а в `experiments.ipynb` эксперименты по обучению моделей и замеру качества в различных задачах. Поставить необходимое окружение и повторить эксперименты можно с помощью команды `poetry install`.
@@ -71,4 +79,4 @@ O O B-time_from I-time_from I-time_from O
 
 2. [Named Entity Recognition with Bidirectional LSTM-CNNs](https://arxiv.org/pdf/1511.08308.pdf) и [How to Use Gazetteers for Entity Recognition with Neural Models](https://aclanthology.org/W19-5807.pdf) Статьи об использовании газетиров и базовой постановке задачи, примеры на LSTM.
 
-3. [Improving Neural Named Entity Recognition with Gazetteers](https://arxiv.org/pdf/2003.03072.pdf) и [GEMNET: Effective Gated Gazetteer Representations for Recognizing Complex Entities in Low-context Input](https://aclanthology.org/2021.naacl-main.118.pdf). Использование газетиров вместе с BERT (ясно, что базовая модификация эмбеддингов как во втором пункте испортит претрейн).
+3. [Improving Neural Named Entity Recognition with Gazetteers](https://arxiv.org/pdf/2003.03072.pdf) и [GEMNET: Effective Gated Gazetteer Representations for Recognizing Complex Entities in Low-context Input](https://aclanthology.org/2021.naacl-main.118.pdf). Использование газетиров вместе с BERT.
